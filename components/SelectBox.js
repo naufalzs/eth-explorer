@@ -1,8 +1,8 @@
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/solid";
 import { useEffect, useState, useRef } from "react";
 
-export default function SelectBox({ setOffset }) {
-  const menuItems = [100,10, 25, 50, 100];
+export default function SelectBox({ setOffset, setActivePage }) {
+  const menuItems = [10, 25, 50, 100];
 
   const [selectedItem, setSelectedItem] = useState({
     item: menuItems[0],
@@ -11,16 +11,16 @@ export default function SelectBox({ setOffset }) {
   const [stateDropdown, setStateDropdown] = useState(false);
   const selectMenuRef = useRef();
 
-
   useEffect(() => {
     const handleSelectMenu = (e) => {
-      if (!selectMenuRef.current.contains(e.target)) {
+      if (!selectMenuRef?.current?.contains(e.target)) {
         setStateDropdown(false);
       }
     };
 
     document.addEventListener("click", handleSelectMenu);
     setOffset(selectedItem.item);
+    setActivePage(1);
   }, [selectedItem]);
 
   return (

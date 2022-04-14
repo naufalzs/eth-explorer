@@ -6,16 +6,39 @@ export default function PaginationBox({
   activePage,
   setActivePage,
 }) {
-  const arrPage = [];
+  const [showPage, setShowPage] = useState([]);
 
-  for (let i = 1; i <= totalPage; i++) {
-    arrPage.push(i);
-  }
-  // useEffect(() => {
+  useEffect(() => {
+    if (totalPage && activePage) {
+      if (totalPage < 10 || totalPage - activePage <= 10) {
+        if (totalPage < 10) {
+          const arrPage = [];
+          for (let i = 1; i <= totalPage; i++) {
+            arrPage.push(i);
+          }
+          setShowPage(arrPage);
+        } else {
+          const arrPage = [];
+          for (let i = totalPage - 10; i <= totalPage; i++) {
+            arrPage.push(i);
+          }
+          setShowPage(arrPage);
+        }
+      } else {
+        const arrPage2 = [];
+        for (let i = 0; i <= 3; i++) {
+          arrPage2.push(activePage + i);
+        }
+        arrPage2.push("...");
 
-  // }, [totalPage]);
-  const lastNumber = arrPage[arrPage.length - 1];
-  const showPage = [1, 2, "...", lastNumber - 1, lastNumber];
+        for (let i = 1; i >= 0; i--) {
+          arrPage2.push(totalPage - i);
+        }
+        setShowPage(arrPage2);
+      }
+    }
+  }, [totalPage, activePage]);
+
   // console.log(arrPage);
 
   const handleClick = (active) => {
@@ -24,11 +47,21 @@ export default function PaginationBox({
 
   return (
     <nav className=" h-10 flex rounded-md shadow-sm ">
-      <div className=" flex items-center p-2 rounded-l-md border border-gray-300 bg-white text-sm  hover:bg-gray-50">
+      <div
+        onClick={
+          activePage > 1
+            ? () => {
+                handleClick(activePage - 1);
+              }
+            : undefined
+        }
+        className={`flex items-center p-2 rounded-l-md border border-gray-300 bg-white text-sm  ${
+          activePage > 1 && "hover:bg-gray-50 cursor-pointer"
+        }`}
+      >
         <ChevronLeftIcon className="h-5 w-5 text-gray-500" />
       </div>
-      {arrPage?.map((num) => {
-        // {showPage?.map((num) => {
+      {showPage?.map((num) => {
         return (
           <div
             key={num}
@@ -39,28 +72,26 @@ export default function PaginationBox({
               num === activePage
                 ? "bg-indigo-50 border-indigo-500 text-indigo-600"
                 : "bg-white border-gray-300 text-gray-500"
-            } flex items-center px-4 py-2 border text-sm`}
+            } flex items-center px-4 py-2 border text-sm  ${
+              num !== "..." && "cursor-pointer hover:bg-gray-50"
+            }`}
           >
             {num}
           </div>
         );
       })}
-      {/* <div className="bg-indigo-50 border-indigo-500 text-indigo-600  flex items-center px-4 py-2 border text-sm">
-        1
-      </div>
-      <div className="cursor-pointer bg-white border-gray-300 text-gray-500 hover:bg-gray-50  flex items-center px-4 py-2 border text-sm">
-        2
-      </div>
-      <div className="flex items-center px-4 py-2 border border-gray-300 bg-white text-sm">
-        ...
-      </div>
-      <div className="cursor-pointer bg-white border-gray-300 text-gray-500 hover:bg-gray-50  flex items-center px-4 py-2 border text-sm">
-        9
-      </div>
-      <div className="cursor-pointer bg-white border-gray-300 text-gray-500 hover:bg-gray-50  flex items-center px-4 py-2 border text-sm">
-        10
-      </div> */}
-      <div className=" flex items-center p-2 rounded-r-md border border-gray-300 bg-white text-sm  hover:bg-gray-50">
+      <div
+        onClick={
+          activePage < totalPage
+            ? () => {
+                handleClick(activePage + 1);
+              }
+            : undefined
+        }
+        className={`flex items-center p-2 rounded-r-md border border-gray-300 bg-white text-sm  ${
+          activePage < totalPage && "hover:bg-gray-50 cursor-pointer"
+        }`}
+      >
         <ChevronRightIcon className="h-5 w-5 text-gray-500" />
       </div>
     </nav>
