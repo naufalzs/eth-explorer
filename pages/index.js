@@ -20,11 +20,8 @@ export default function Home() {
 
       <Sidebar tabActive={tabActive} setTabActive={CBsetActive} />
       <div className="w-4/5 float-right min-h-screen pb-10 bg-sky-100">
-      {tabActive==0 && (
-        <MainTransaction/>
-      )}
-    </div>
-
+        {tabActive == 0 && <MainTransaction />}
+      </div>
     </div>
   );
 }

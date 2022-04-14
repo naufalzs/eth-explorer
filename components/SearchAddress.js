@@ -7,7 +7,7 @@ export default function SearchAddress({ setAddress }) {
     e.preventDefault();
   };
   return (
-    <div className="h-4/5 w-full flex flex-col items-center justify-center">
+    <div className="h-[calc(80vh)] w-full flex flex-col items-center justify-center">
       <form onSubmit={handleSubmit} className="flex flex-col items-center">
         <div className="relative">
           <SearchIcon className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 left-3" />

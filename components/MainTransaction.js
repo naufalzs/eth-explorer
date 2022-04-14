@@ -7,7 +7,7 @@ import SelectBox from "./SelectBox";
 
 export default function MainTransaction() {
   const [step, setStep] = useState(undefined);
-  const [address, setOffsetsetAddress] = useState(undefined);
+  const [address, setAddress] = useState(undefined);
   const [offset, setOffset] = useState(10);
   const [activePage, setActivePage] = useState(1);
   const [totalPage, setTotalPage] = useState(undefined);
@@ -29,59 +29,73 @@ export default function MainTransaction() {
   };
 
   useEffect(() => {
-    // if (address) {
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-    axios
-      .get(
-        `https://api.etherscan.io/api?module=account&action=txlist&address=0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae&startblock=0&endblock=99999999&page=1&offset=&sort=asc&apikey=${apiKey}`
-      )
-      .then((res) => {
-        setTotalPage(Math.floor(res.data.result.length / offset) + 1);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    // }
-  }, [offset]);
+    if (address) {
+      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+      axios
+        .get(
+          `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=&sort=asc&apikey=${apiKey}`
+        )
+        .then((res) => {
+          setTotalPage(Math.floor(res.data.result.length / offset) + 1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [address, offset]);
 
   useEffect(() => {
-    // if (address) {
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-    axios
-      .get(
-        `https://api.etherscan.io/api?module=account&action=txlist&address=0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae&startblock=0&endblock=99999999&page=${activePage}&offset=${offset}&sort=asc&apikey=${apiKey}`
-      )
-      .then((res) => {
-        setData(res.data.result);
-        setStep(1);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    // }
-  }, [offset, activePage]);
-  // [address,offset]
+    if (address) {
+      const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+      axios
+        .get(
+          `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=${activePage}&offset=${offset}&sort=asc&apikey=${apiKey}`
+        )
+        .then((res) => {
+          setData(res.data.result);
+          setStep(1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [address, offset, activePage]);
 
   return (
     <>
-      {/* {!step ? (
+      {!step ? (
         <SearchAddress setAddress={CBsetAddress} />
-      ) : ( */}
-      <div className="px-14 pt-12">
-        <h1 className="text-2xl">0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae</h1>
-        <p>transactions</p>
+      ) : typeof data !== "string" ? (
+        <div className="px-14 pt-12">
+          <h1 className="text-2xl">{address || "address goes here"}</h1>
+          <p>transactions</p>
 
-        <div className="my-12 flex justify-between">
-          <SelectBox setOffset={CBsetOffset} setActivePage={CBsetActivePage} />
-          <PaginationBox
-            totalPage={totalPage}
-            activePage={activePage}
-            setActivePage={CBsetActivePage}
-          />
+          <div className="my-12 flex justify-between">
+            <SelectBox
+              setOffset={CBsetOffset}
+              setActivePage={CBsetActivePage}
+            />
+            <PaginationBox
+              totalPage={totalPage}
+              activePage={activePage}
+              setActivePage={CBsetActivePage}
+            />
+          </div>
+          <DataTable transactionData={data} indexFix={indexFix} />
         </div>
-        <DataTable transactionData={data} indexFix={indexFix} />
-      </div>
-      {/* )} */}
+      ) : (
+        <div className="h-[calc(80vh)] w-full flex flex-col items-center justify-center">
+          <h1 className="text-center text-5xl">Address Not Valid</h1>
+          <button
+            onClick={() => {
+              setStep(0);
+            }}
+            className="w-[300px] px-4 py-2 text-lg rounded-md mt-8 bg-gray-300"
+          >
+            Back to home
+          </button>
+        </div>
+      )}
     </>
   );
 }
