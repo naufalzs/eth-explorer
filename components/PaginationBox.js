@@ -56,10 +56,10 @@ export default function PaginationBox({
             : undefined
         }
         className={`flex items-center p-2 rounded-l-md border border-gray-300 bg-white text-sm  ${
-          activePage > 1 && "hover:bg-gray-50 cursor-pointer"
+          activePage > 1 ? "hover:bg-gray-100 cursor-pointer text-gray-500" : "bg-gray-100 text-gray-300"
         }`}
       >
-        <ChevronLeftIcon className="h-5 w-5 text-gray-500" />
+        <ChevronLeftIcon className="h-5 w-5" />
       </div>
       {showPage?.map((num) => {
         return (
@@ -89,10 +89,12 @@ export default function PaginationBox({
             : undefined
         }
         className={`flex items-center p-2 rounded-r-md border border-gray-300 bg-white text-sm  ${
-          activePage < totalPage && "hover:bg-gray-50 cursor-pointer"
+          activePage < totalPage
+            ? "hover:bg-gray-100 cursor-pointer text-gray-500"
+            : "bg-gray-100 text-gray-300"
         }`}
       >
-        <ChevronRightIcon className="h-5 w-5 text-gray-500" />
+        <ChevronRightIcon className="h-5 w-5 " />
       </div>
     </nav>
   );
