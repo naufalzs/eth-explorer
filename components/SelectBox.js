@@ -2,7 +2,7 @@ import { CheckIcon, ChevronDownIcon } from "@heroicons/react/solid";
 import { useEffect, useState, useRef } from "react";
 
 export default function SelectBox({ setOffset }) {
-  const menuItems = [10, 25, 50, 100];
+  const menuItems = [100,10, 25, 50, 100];
 
   const [selectedItem, setSelectedItem] = useState({
     item: menuItems[0],

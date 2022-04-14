@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function DataTable({ transactionData }) {
+export default function DataTable({ transactionData, indexFix }) {
   return (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -18,16 +18,31 @@ export default function DataTable({ transactionData }) {
                 </tr>
               </thead>
               <tbody className="text-sm font-light text-gray-900">
-                {transactionData?.map((transaction,index) => (
-                  <tr key={transaction?.timeStamp} className={`${index % 2=== 0 ? "bg-gray-100" : "bg-white"} border-b`}>
+                {transactionData?.map((transaction, index) => (
+                  <tr
+                    key={index}
+                    className={`${
+                      index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                    } border-b`}
+                  >
                     <td className="px-6 py-4 whitespace-nowrap  font-medium ">
-                      {index+1}
+                      {index + 1 + indexFix}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">{transaction?.blockNumber|| ""}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{transaction?.hash|| ""}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{transaction?.from|| ""}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{transaction?.to|| ""}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{transaction?.value|| ""}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {transaction?.blockNumber || ""}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {transaction?.hash || ""}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {transaction?.from || ""}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {transaction?.to || ""}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {transaction?.value || ""}
+                    </td>
                   </tr>
                 ))}
                 {/* <tr className="bg-gray-100 border-b ">
