@@ -1,4 +1,5 @@
 import React from "react";
+import DataTable from "./DataTable";
 import PaginationBox from "./PaginationBox";
 import SearchAddress from "./SearchAddress";
 import SelectBox from "./SelectBox";
@@ -15,7 +16,7 @@ export default function MainContent() {
           <SelectBox />
           <PaginationBox/>
         </div>
-        
+        <DataTable/>
       </div>
     </div>
   );

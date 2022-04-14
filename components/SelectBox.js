@@ -1,3 +1,4 @@
+import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useEffect, useRef, useState } from "react";
 
 export default function SelectBox() {
@@ -28,20 +29,7 @@ export default function SelectBox() {
         onClick={() => setStateDropdown(!stateDropdown)}
       >
         {selectedItem.item}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6 text-gray-400"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M8 9l4-4 4 4m0 6l-4 4-4-4"
-          />
-        </svg>
+        <ChevronDownIcon className="w-6 h-6 text-gray-400"/>
       </button>
 
       {stateDropdown && (
