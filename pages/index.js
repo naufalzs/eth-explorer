@@ -1,8 +1,15 @@
 import MainContent from "components/MainContent";
 import Sidebar from "components/Sidebar";
 import Head from "next/head";
+import React, { useState } from "react";
 
 export default function Home() {
+  const [tabActive, setTabActive] = useState(1);
+
+  const CBsetActive = (selected) => {
+    setTabActive(selected);
+  };
+
   return (
     <div>
       <Head>
@@ -11,8 +18,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Sidebar />
-      <MainContent />
+      <Sidebar tabActive={tabActive} setTabActive={CBsetActive} />
+      <MainContent tabActive={tabActive} />
     </div>
   );
 }
