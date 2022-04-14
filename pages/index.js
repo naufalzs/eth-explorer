@@ -5,7 +5,7 @@ import Head from "next/head";
 import React, { useState } from "react";
 
 export default function Home() {
-  const [tabActive, setTabActive] = useState(1);
+  const [tabActive, setTabActive] = useState(0);
 
   const CBsetActive = (selected) => {
     setTabActive(selected);
