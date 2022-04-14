@@ -1,10 +1,11 @@
+import BitcoinLive from "components/BitcoinLive";
 import MainTransaction from "components/MainTransaction";
 import Sidebar from "components/Sidebar";
 import Head from "next/head";
 import React, { useState } from "react";
 
 export default function Home() {
-  const [tabActive, setTabActive] = useState(0);
+  const [tabActive, setTabActive] = useState(1);
 
   const CBsetActive = (selected) => {
     setTabActive(selected);
@@ -20,7 +21,7 @@ export default function Home() {
 
       <Sidebar tabActive={tabActive} setTabActive={CBsetActive} />
       <div className="w-4/5 float-right min-h-screen pb-10 bg-sky-100">
-        {tabActive == 0 && <MainTransaction />}
+        {tabActive == 0 ? <MainTransaction /> : <BitcoinLive />}
       </div>
     </div>
   );
