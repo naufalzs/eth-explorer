@@ -21,6 +21,8 @@ Fitur yang telah tersedia dalam project
 2. Offset selector.
 3. Pagination.
 4. Bitcoin live tracker.
+5. Search transaction by Hash
+6. Filter to in current page
 
 ## Initial Setup
 
