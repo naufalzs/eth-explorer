@@ -14,6 +14,7 @@ export default function MainTransaction() {
   const [page, setPage] = useState(undefined);
 
   const [data, setData] = useState(undefined);
+  const [filterTo, setFilterTo] = useState(false);
   const indexFix = offset * (activePage - 1);
 
   const CBsetAddress = (dress) => {
@@ -52,14 +53,20 @@ export default function MainTransaction() {
           `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=${activePage}&offset=${offset}&sort=asc&apikey=${apiKey}`
         )
         .then((res) => {
-          setData(res.data.result);
+          const getRes = res.data.result;
+          if (filterTo) {
+            const filteredRes = getRes.filter((e) => e.to !== "");
+            setData(filteredRes);
+          } else {
+            setData(getRes);
+          }
           setStep(1);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [address, offset, activePage]);
+  }, [address, offset, activePage, filterTo]);
 
   return (
     <>
@@ -70,7 +77,7 @@ export default function MainTransaction() {
           <h1 className="text-2xl">{address || "address goes here"}</h1>
           <p>transactions</p>
 
-          <div className="my-12 flex justify-between">
+          <div className="mt-6 mb-2 flex justify-between">
             <SelectBox
               setOffset={CBsetOffset}
               setActivePage={CBsetActivePage}
@@ -80,6 +87,16 @@ export default function MainTransaction() {
               activePage={activePage}
               setActivePage={CBsetActivePage}
             />
+          </div>
+          <div className="mb-6 flex justify-between">
+            <button
+              onClick={() => {
+                setFilterTo(!filterTo);
+              }}
+              className="w-[350px] px-4 py-2 text-lg rounded-md mt-8 bg-gray-300"
+            >
+              Only show transaction with To value
+            </button>
           </div>
           <DataTable transactionData={data} indexFix={indexFix} />
         </div>
